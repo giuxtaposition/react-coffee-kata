@@ -1,13 +1,20 @@
 import {useEffect, useState} from "react";
 
 interface RoastersProps {
-    fetchRoasters: () => Promise<{
-        roasters: string[] | null;
-    }>;
+    fetchRoasters: () => Promise<RoasterListProps>;
+}
+
+interface RoasterListProps {
+    roasters: Roaster[] | null;
+}
+
+interface Roaster {
+    name: string;
+    type: string;
 }
 
 const Roasters = ({fetchRoasters}: RoastersProps) => {
-    const [roasters, setRoasters] = useState<string[] | null>(null);
+    const [roasters, setRoasters] = useState<Roaster[] | null>(null);
 
     useEffect(() => {
         (async () => {
@@ -18,10 +25,6 @@ const Roasters = ({fetchRoasters}: RoastersProps) => {
 
     return <RoasterList roasters={roasters}/>;
 };
-
-interface RoasterListProps {
-    roasters: string[] | null;
-}
 
 export function RoasterList({roasters}: RoasterListProps) {
     const [roasterList, setRoasterList] = useState(roasters);
@@ -36,11 +39,11 @@ export function RoasterList({roasters}: RoasterListProps) {
 
     return (
         <>
-            <button onClick={handleClear} data-testid="clear-btn">Clear</button>
+            <button data-testid="clear-btn" onClick={handleClear}>Clear</button>
             {roasterList && roasterList.length > 0 && (
                 <div data-testid="roasters">
                     {roasterList.map((roaster) => (
-                        <span key={roaster}>{roaster}</span>
+                        <span key={roaster.name}>{roaster.name}</span>
                     ))}
                 </div>
             )}
