@@ -1,4 +1,4 @@
-import { render, waitFor } from "@testing-library/react";
+import { render, waitFor, screen } from "@testing-library/react";
 import Roasters from "../views/Roasters";
 
 describe("Roasters", () => {
@@ -20,15 +20,15 @@ describe("Roasters", () => {
     expect(roasterList).toBeNull();
   });
 
-  it('shows text "Hello World"', async () => {
-    const roastersData = { roasters: "Hello World" };
+  it("shows a list of coffee roasters", async () => {
+    const roastersData = { roasters: ["Brasile", "Colombia"] };
     const fetchRoasters = async () => roastersData;
 
-    let roasterList;
     const roasters = render(<Roasters fetchRoasters={fetchRoasters} />);
+
     await waitFor(() => {
-      roasterList = roasters.queryByTestId("roasters");
-      expect(roasterList).toHaveTextContent("Hello World");
+      expect(screen.getByText("Brasile")).toBeVisible();
+      expect(screen.getByText("Colombia")).toBeVisible();
     });
   });
 });

@@ -25,7 +25,11 @@ export function RoasterList({ roasters }: RoasterListProps) {
   return (
     <>
       {roasters && roasters.length > 0 && (
-        <span data-testid="roasters">{roasters}</span>
+        <div data-testid="roasters">
+          {roasters.map((roaster: any) => (
+            <span key={roaster}>{roaster}</span>
+          ))}
+        </div>
       )}
     </>
   );
