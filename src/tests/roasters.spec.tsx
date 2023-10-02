@@ -31,4 +31,19 @@ describe("Roasters", () => {
       expect(screen.getByText("Colombia")).toBeVisible();
     });
   });
+
+  it("clears the list of coffee roasters", async () => {
+    const roastersData = { roasters: ["Brasile", "Colombia"] };
+    const fetchRoasters = async () => roastersData;
+
+    const roasters = render(<Roasters fetchRoasters={fetchRoasters} />);
+
+    await waitFor(() => {
+      const clearBtn = roasters.queryByTestId("clear-btn") as HTMLButtonElement;
+      clearBtn.click();
+
+      expect(screen.queryByText("Brasile")).not.toBeInTheDocument();
+      expect(screen.queryByText("Colombia")).not.toBeInTheDocument();
+    });
+  });
 });

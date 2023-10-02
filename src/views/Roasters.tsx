@@ -1,38 +1,51 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
 interface RoastersProps {
-  fetchRoasters: () => Promise<any>;
+    fetchRoasters: () => Promise<{
+        roasters: string[] | null;
+    }>;
 }
 
-const Roasters = ({ fetchRoasters }: RoastersProps) => {
-  const [roasters, setRoasters] = useState();
+const Roasters = ({fetchRoasters}: RoastersProps) => {
+    const [roasters, setRoasters] = useState<string[] | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      const { roasters } = await fetchRoasters();
-      setRoasters(roasters);
-    })();
-  }, []);
+    useEffect(() => {
+        (async () => {
+            const {roasters} = await fetchRoasters();
+            setRoasters(roasters);
+        })();
+    }, [fetchRoasters]);
 
-  return <RoasterList roasters={roasters} />;
+    return <RoasterList roasters={roasters}/>;
 };
 
 interface RoasterListProps {
-  roasters?: string[];
+    roasters: string[] | null;
 }
 
-export function RoasterList({ roasters }: RoasterListProps) {
-  return (
-    <>
-      {roasters && roasters.length > 0 && (
-        <div data-testid="roasters">
-          {roasters.map((roaster) => (
-            <span key={roaster}>{roaster}</span>
-          ))}
-        </div>
-      )}
-    </>
-  );
+export function RoasterList({roasters}: RoasterListProps) {
+    const [roasterList, setRoasterList] = useState(roasters);
+
+    useEffect(() => {
+        setRoasterList(roasters);
+    }, [roasters]);
+
+    const handleClear = () => {
+        setRoasterList([]);
+    };
+
+    return (
+        <>
+            <button onClick={handleClear} data-testid="clear-btn">Clear</button>
+            {roasterList && roasterList.length > 0 && (
+                <div data-testid="roasters">
+                    {roasterList.map((roaster) => (
+                        <span key={roaster}>{roaster}</span>
+                    ))}
+                </div>
+            )}
+        </>
+    );
 }
 
 export default Roasters;
