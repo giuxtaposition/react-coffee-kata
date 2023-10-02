@@ -24,7 +24,7 @@ describe("Roasters", () => {
     const roastersData = { roasters: ["Brasile", "Colombia"] };
     const fetchRoasters = async () => roastersData;
 
-    const roasters = render(<Roasters fetchRoasters={fetchRoasters} />);
+    render(<Roasters fetchRoasters={fetchRoasters} />);
 
     await waitFor(() => {
       expect(screen.getByText("Brasile")).toBeVisible();

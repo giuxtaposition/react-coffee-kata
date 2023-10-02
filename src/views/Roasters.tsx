@@ -14,11 +14,11 @@ const Roasters = ({ fetchRoasters }: RoastersProps) => {
     })();
   }, []);
 
-  return <RoasterList roasters={roasters}>{roasters}</RoasterList>;
+  return <RoasterList roasters={roasters} />;
 };
 
 interface RoasterListProps {
-  roasters: any;
+  roasters?: string[];
 }
 
 export function RoasterList({ roasters }: RoasterListProps) {
@@ -26,7 +26,7 @@ export function RoasterList({ roasters }: RoasterListProps) {
     <>
       {roasters && roasters.length > 0 && (
         <div data-testid="roasters">
-          {roasters.map((roaster: any) => (
+          {roasters.map((roaster) => (
             <span key={roaster}>{roaster}</span>
           ))}
         </div>
